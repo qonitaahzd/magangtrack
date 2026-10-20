@@ -1,0 +1,9 @@
+# Konfigurasi database lokal
+config/database.php
+.env
+
+# File pengujian lokal
+test-koneksi.php
+
+# Dependencies
+vendor/
