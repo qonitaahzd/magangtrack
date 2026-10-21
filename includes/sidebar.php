@@ -1,6 +1,6 @@
 <?php
 /**
- * MAGANGTRACK - Shared Sidebar Component
+ * MAGANGTRACK - Shared Sidebar Component (Layout Fix)
  * Lokasi berkas: magangtrack/includes/sidebar.php
  */
 
@@ -43,26 +43,26 @@ $role = $_SESSION['role'] ?? 'mahasiswa';
                     <ul class="space-y-1">
                         <li>
                             <a href="<?= $basePath; ?>dashboard.php" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs <?= ($currentPage === 'dashboard.php' && !$isInDosenFolder) ? 'text-brand-600 bg-brand-50 font-semibold border-l-4 border-brand-600' : 'text-slate-600 hover:text-brand-600 hover:bg-slate-50 font-medium' ?> transition-all">
-                                <i class="fa-solid fa-grid-2 text-sm w-5"></i>
-                                <span>Dashboard</span>
+                                <i class="fa-solid fa-table-columns text-sm w-5 text-center flex-shrink-0"></i>
+                                <span class="truncate">Dashboard</span>
                             </a>
                         </li>
                         <li>
                             <a href="<?= $basePath; ?>explore.php" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs <?= $currentPage === 'explore.php' ? 'text-brand-600 bg-brand-50 font-semibold border-l-4 border-brand-600' : 'text-slate-600 hover:text-brand-600 hover:bg-slate-50 font-medium' ?> transition-all">
-                                <i class="fa-solid fa-compass text-sm w-5"></i>
-                                <span>Explore Perusahaan</span>
+                                <i class="fa-solid fa-compass text-sm w-5 text-center flex-shrink-0"></i>
+                                <span class="truncate">Explore Perusahaan</span>
                             </a>
                         </li>
                         <li>
                             <a href="<?= $basePath; ?>applications.php" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs <?= $currentPage === 'applications.php' ? 'text-brand-600 bg-brand-50 font-semibold border-l-4 border-brand-600' : 'text-slate-600 hover:text-brand-600 hover:bg-slate-50 font-medium' ?> transition-all">
-                                <i class="fa-solid fa-paper-plane text-sm w-5"></i>
-                                <span>Application Tracker</span>
+                                <i class="fa-solid fa-paper-plane text-sm w-5 text-center flex-shrink-0"></i>
+                                <span class="truncate">Application Tracker</span>
                             </a>
                         </li>
                         <li>
                             <a href="<?= $basePath; ?>checklist.php" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs <?= $currentPage === 'checklist.php' ? 'text-brand-600 bg-brand-50 font-semibold border-l-4 border-brand-600' : 'text-slate-600 hover:text-brand-600 hover:bg-slate-50 font-medium' ?> transition-all">
-                                <i class="fa-solid fa-list-check text-sm w-5"></i>
-                                <span>Document Checklist</span>
+                                <i class="fa-solid fa-list-check text-sm w-5 text-center flex-shrink-0"></i>
+                                <span class="truncate">Document Checklist</span>
                             </a>
                         </li>
                     </ul>
@@ -76,12 +76,12 @@ $role = $_SESSION['role'] ?? 'mahasiswa';
                         <li>
                             <a href="<?= ($isInternshipScheduled ?? false) ? $basePath . 'my-internship.php' : '#' ?>" 
                                class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs <?= $currentPage === 'my-internship.php' ? 'text-brand-600 bg-brand-50 font-semibold border-l-4 border-brand-600' : 'text-slate-600 hover:text-brand-600 hover:bg-slate-50 font-medium' ?> transition-all <?= !($isInternshipScheduled ?? false) ? 'opacity-50 cursor-not-allowed pointer-events-none' : '' ?>">
-                                <div class="flex items-center gap-3">
-                                    <i class="fa-solid fa-briefcase text-sm w-5"></i>
-                                    <span>My Internship</span>
+                                <div class="flex items-center gap-3 min-w-0">
+                                    <i class="fa-solid fa-briefcase text-sm w-5 text-center flex-shrink-0"></i>
+                                    <span class="truncate">My Internship</span>
                                 </div>
                                 <?php if (!($isInternshipScheduled ?? false)): ?>
-                                    <span class="text-[9px] bg-slate-100 text-slate-400 px-1.5 py-0.5 rounded font-mono"><i class="fa-solid fa-lock text-[8px]"></i></span>
+                                    <span class="text-[9px] bg-slate-100 text-slate-400 px-1.5 py-0.5 rounded font-mono ml-2 flex-shrink-0"><i class="fa-solid fa-lock text-[8px]"></i></span>
                                 <?php endif; ?>
                             </a>
                         </li>
@@ -90,20 +90,20 @@ $role = $_SESSION['role'] ?? 'mahasiswa';
                         <li>
                             <a href="<?= ($isInternshipActive ?? false) ? $basePath . 'logbook.php' : '#' ?>" 
                                class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs <?= $currentPage === 'logbook.php' ? 'text-brand-600 bg-brand-50 font-semibold border-l-4 border-brand-600' : 'text-slate-600 hover:text-brand-600 hover:bg-slate-50 font-medium' ?> transition-all <?= !($isInternshipActive ?? false) ? 'opacity-50 cursor-not-allowed pointer-events-none' : '' ?>">
-                                <div class="flex items-center gap-3">
-                                    <i class="fa-solid fa-book-bookmark text-sm w-5"></i>
-                                    <span>Digital Logbook</span>
+                                <div class="flex items-center gap-3 min-w-0">
+                                    <i class="fa-solid fa-book-bookmark text-sm w-5 text-center flex-shrink-0"></i>
+                                    <span class="truncate">Digital Logbook</span>
                                 </div>
                                 <?php if (!($isInternshipActive ?? false)): ?>
-                                    <span class="text-[9px] bg-slate-100 text-slate-400 px-1.5 py-0.5 rounded font-mono"><i class="fa-solid fa-lock text-[8px]"></i></span>
+                                    <span class="text-[9px] bg-slate-100 text-slate-400 px-1.5 py-0.5 rounded font-mono ml-2 flex-shrink-0"><i class="fa-solid fa-lock text-[8px]"></i></span>
                                 <?php endif; ?>
                             </a>
                         </li>
 
                         <li>
                             <a href="<?= $basePath; ?>calendar.php" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs <?= $currentPage === 'calendar.php' ? 'text-brand-600 bg-brand-50 font-semibold border-l-4 border-brand-600' : 'text-slate-600 hover:text-brand-600 hover:bg-slate-50 font-medium' ?> transition-all">
-                                <i class="fa-solid fa-calendar-days text-sm w-5"></i>
-                                <span>Calendar & Schedule</span>
+                                <i class="fa-solid fa-calendar-days text-sm w-5 text-center flex-shrink-0"></i>
+                                <span class="truncate">Calendar & Schedule</span>
                             </a>
                         </li>
                     </ul>
@@ -116,14 +116,14 @@ $role = $_SESSION['role'] ?? 'mahasiswa';
                     <ul class="space-y-1">
                         <li>
                             <a href="<?= $isInDosenFolder ? 'dashboard.php' : 'dosen/dashboard.php'; ?>" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs <?= ($currentPage === 'dashboard.php' && $isInDosenFolder) ? 'text-brand-600 bg-brand-50 font-semibold border-l-4 border-brand-600' : 'text-slate-600 hover:text-brand-600 hover:bg-slate-50 font-medium' ?> transition-all">
-                                <i class="fa-solid fa-users text-sm w-5"></i>
-                                <span>Mahasiswa Bimbingan</span>
+                                <i class="fa-solid fa-users text-sm w-5 text-center flex-shrink-0"></i>
+                                <span class="truncate">Mahasiswa Bimbingan</span>
                             </a>
                         </li>
                         <li>
                             <a href="<?= $basePath; ?>dosen_logbook.php" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs <?= $currentPage === 'dosen_logbook.php' ? 'text-brand-600 bg-brand-50 font-semibold border-l-4 border-brand-600' : 'text-slate-600 hover:text-brand-600 hover:bg-slate-50 font-medium' ?> transition-all">
-                                <i class="fa-solid fa-book-check text-sm w-5"></i>
-                                <span>Review Logbook</span>
+                                <i class="fa-solid fa-book-check text-sm w-5 text-center flex-shrink-0"></i>
+                                <span class="truncate">Review Logbook</span>
                             </a>
                         </li>
                     </ul>
@@ -136,8 +136,8 @@ $role = $_SESSION['role'] ?? 'mahasiswa';
                 <ul class="space-y-1">
                     <li>
                         <a href="<?= $basePath; ?>profile.php" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs <?= $currentPage === 'profile.php' ? 'text-brand-600 bg-brand-50 font-semibold border-l-4 border-brand-600' : 'text-slate-600 hover:text-brand-600 hover:bg-slate-50 font-medium' ?> transition-all">
-                            <i class="fa-solid fa-user text-sm w-5"></i>
-                            <span>My Profile</span>
+                            <i class="fa-solid fa-user text-sm w-5 text-center flex-shrink-0"></i>
+                            <span class="truncate">My Profile</span>
                         </a>
                     </li>
                 </ul>
@@ -155,7 +155,7 @@ $role = $_SESSION['role'] ?? 'mahasiswa';
                 <p class="text-xs font-semibold text-slate-800 truncate"><?= htmlspecialchars($_SESSION['nama'] ?? ''); ?></p>
                 <p class="text-[10px] text-slate-500 truncate font-mono"><?= htmlspecialchars($_SESSION['nim_nidn'] ?? ''); ?></p>
             </div>
-            <a href="<?= $basePath; ?>logout.php" class="text-slate-400 hover:text-rose-600 p-1.5 transition-colors" title="Logout dari Sistem">
+            <a href="<?= $basePath; ?>logout.php" class="text-slate-400 hover:text-rose-600 p-1.5 transition-colors flex-shrink-0" title="Logout dari Sistem">
                 <i class="fa-solid fa-right-from-bracket text-xs"></i>
             </a>
         </div>
