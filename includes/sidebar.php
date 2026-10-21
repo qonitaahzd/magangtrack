@@ -1,6 +1,6 @@
 <?php
 /**
- * MAGANGTRACK - Shared Sidebar Component (Layout Fix)
+ * MAGANGTRACK - Shared Sidebar Component (Layout & Alignment Fixed)
  * Lokasi berkas: magangtrack/includes/sidebar.php
  */
 
@@ -13,7 +13,7 @@ $role = $_SESSION['role'] ?? 'mahasiswa';
 ?>
 
 <!-- Sidebar Container -->
-<aside id="main-sidebar" class="w-64 bg-white border-r border-surface-border flex flex-col justify-between p-4 flex-shrink-0 absolute md:relative inset-y-0 left-0 z-40 transform -translate-x-full md:translate-x-0 transition-transform duration-200 ease-in-out">
+<aside id="main-sidebar" aria-label="Navigasi Utama" class="w-64 bg-white border-r border-surface-border flex flex-col justify-between p-4 flex-shrink-0 absolute md:relative inset-y-0 left-0 z-40 transform -translate-x-full md:translate-x-0 transition-transform duration-200 ease-in-out">
     <div class="space-y-5">
         <!-- Logo & Header Brand -->
         <div class="flex items-center justify-between px-3 py-1">
@@ -29,7 +29,7 @@ $role = $_SESSION['role'] ?? 'mahasiswa';
                 </div>
             </div>
             <!-- Toggle Close Button Mobile -->
-            <button type="button" onclick="toggleSidebar()" class="md:hidden text-slate-400 hover:text-slate-600 p-1">
+            <button type="button" onclick="toggleSidebar()" aria-label="Tutup Menu Sidebar" class="md:hidden text-slate-400 hover:text-slate-600 p-1">
                 <i class="fa-solid fa-xmark text-sm"></i>
             </button>
         </div>
@@ -73,29 +73,33 @@ $role = $_SESSION['role'] ?? 'mahasiswa';
                     <p class="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">During Internship</p>
                     <ul class="space-y-1">
                         <!-- My Internship: Tersedia untuk Terjadwal atau Aktif -->
+                        <?php $canAccessMyInternship = (bool)($isInternshipScheduled ?? false); ?>
                         <li>
-                            <a href="<?= ($isInternshipScheduled ?? false) ? $basePath . 'my-internship.php' : '#' ?>" 
-                               class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs <?= $currentPage === 'my-internship.php' ? 'text-brand-600 bg-brand-50 font-semibold border-l-4 border-brand-600' : 'text-slate-600 hover:text-brand-600 hover:bg-slate-50 font-medium' ?> transition-all <?= !($isInternshipScheduled ?? false) ? 'opacity-50 cursor-not-allowed pointer-events-none' : '' ?>">
+                            <a href="<?= $canAccessMyInternship ? $basePath . 'my-internship.php' : 'javascript:void(0);' ?>" 
+                               <?= !$canAccessMyInternship ? 'aria-disabled="true" tabindex="-1"' : '' ?>
+                               class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs <?= $currentPage === 'my-internship.php' ? 'text-brand-600 bg-brand-50 font-semibold border-l-4 border-brand-600' : 'text-slate-600 hover:text-brand-600 hover:bg-slate-50 font-medium' ?> transition-all <?= !$canAccessMyInternship ? 'opacity-50 cursor-not-allowed' : '' ?>">
                                 <div class="flex items-center gap-3 min-w-0">
                                     <i class="fa-solid fa-briefcase text-sm w-5 text-center flex-shrink-0"></i>
                                     <span class="truncate">My Internship</span>
                                 </div>
-                                <?php if (!($isInternshipScheduled ?? false)): ?>
-                                    <span class="text-[9px] bg-slate-100 text-slate-400 px-1.5 py-0.5 rounded font-mono ml-2 flex-shrink-0"><i class="fa-solid fa-lock text-[8px]"></i></span>
+                                <?php if (!$canAccessMyInternship): ?>
+                                    <span class="text-[9px] bg-slate-100 text-slate-400 px-1.5 py-0.5 rounded font-mono ml-2 flex-shrink-0" title="Fitur terkunci hingga magang dijadwalkan/aktif"><i class="fa-solid fa-lock text-[8px]"></i></span>
                                 <?php endif; ?>
                             </a>
                         </li>
 
                         <!-- Digital Logbook: Hanya Khusus Magang Berstatus Aktif -->
+                        <?php $canAccessLogbook = (bool)($isInternshipActive ?? false); ?>
                         <li>
-                            <a href="<?= ($isInternshipActive ?? false) ? $basePath . 'logbook.php' : '#' ?>" 
-                               class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs <?= $currentPage === 'logbook.php' ? 'text-brand-600 bg-brand-50 font-semibold border-l-4 border-brand-600' : 'text-slate-600 hover:text-brand-600 hover:bg-slate-50 font-medium' ?> transition-all <?= !($isInternshipActive ?? false) ? 'opacity-50 cursor-not-allowed pointer-events-none' : '' ?>">
+                            <a href="<?= $canAccessLogbook ? $basePath . 'logbook.php' : 'javascript:void(0);' ?>" 
+                               <?= !$canAccessLogbook ? 'aria-disabled="true" tabindex="-1"' : '' ?>
+                               class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs <?= ($currentPage === 'logbook.php' && !$isInDosenFolder) ? 'text-brand-600 bg-brand-50 font-semibold border-l-4 border-brand-600' : 'text-slate-600 hover:text-brand-600 hover:bg-slate-50 font-medium' ?> transition-all <?= !$canAccessLogbook ? 'opacity-50 cursor-not-allowed' : '' ?>">
                                 <div class="flex items-center gap-3 min-w-0">
                                     <i class="fa-solid fa-book-bookmark text-sm w-5 text-center flex-shrink-0"></i>
                                     <span class="truncate">Digital Logbook</span>
                                 </div>
-                                <?php if (!($isInternshipActive ?? false)): ?>
-                                    <span class="text-[9px] bg-slate-100 text-slate-400 px-1.5 py-0.5 rounded font-mono ml-2 flex-shrink-0"><i class="fa-solid fa-lock text-[8px]"></i></span>
+                                <?php if (!$canAccessLogbook): ?>
+                                    <span class="text-[9px] bg-slate-100 text-slate-400 px-1.5 py-0.5 rounded font-mono ml-2 flex-shrink-0" title="Fitur terkunci hingga status magang aktif"><i class="fa-solid fa-lock text-[8px]"></i></span>
                                 <?php endif; ?>
                             </a>
                         </li>
@@ -114,14 +118,20 @@ $role = $_SESSION['role'] ?? 'mahasiswa';
                 <div>
                     <p class="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">Bimbingan Magang</p>
                     <ul class="space-y-1">
+                        <?php 
+                        $isDosenDashboardActive = ($currentPage === 'dashboard.php' && $isInDosenFolder);
+                        $isDosenLogbookActive   = ($isInDosenFolder && $currentPage === 'logbook.php') || $currentPage === 'dosen_logbook.php';
+                        $dosenDashboardLink     = $basePath . 'dosen/dashboard.php';
+                        $dosenLogbookLink       = $isInDosenFolder ? 'logbook.php' : $basePath . 'dosen/logbook.php';
+                        ?>
                         <li>
-                            <a href="<?= $isInDosenFolder ? 'dashboard.php' : 'dosen/dashboard.php'; ?>" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs <?= ($currentPage === 'dashboard.php' && $isInDosenFolder) ? 'text-brand-600 bg-brand-50 font-semibold border-l-4 border-brand-600' : 'text-slate-600 hover:text-brand-600 hover:bg-slate-50 font-medium' ?> transition-all">
+                            <a href="<?= $dosenDashboardLink; ?>" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs <?= $isDosenDashboardActive ? 'text-brand-600 bg-brand-50 font-semibold border-l-4 border-brand-600' : 'text-slate-600 hover:text-brand-600 hover:bg-slate-50 font-medium' ?> transition-all">
                                 <i class="fa-solid fa-users text-sm w-5 text-center flex-shrink-0"></i>
                                 <span class="truncate">Mahasiswa Bimbingan</span>
                             </a>
                         </li>
                         <li>
-                            <a href="<?= $basePath; ?>dosen_logbook.php" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs <?= $currentPage === 'dosen_logbook.php' ? 'text-brand-600 bg-brand-50 font-semibold border-l-4 border-brand-600' : 'text-slate-600 hover:text-brand-600 hover:bg-slate-50 font-medium' ?> transition-all">
+                            <a href="<?= $dosenLogbookLink; ?>" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs <?= $isDosenLogbookActive ? 'text-brand-600 bg-brand-50 font-semibold border-l-4 border-brand-600' : 'text-slate-600 hover:text-brand-600 hover:bg-slate-50 font-medium' ?> transition-all">
                                 <i class="fa-solid fa-book-check text-sm w-5 text-center flex-shrink-0"></i>
                                 <span class="truncate">Review Logbook</span>
                             </a>
@@ -155,7 +165,7 @@ $role = $_SESSION['role'] ?? 'mahasiswa';
                 <p class="text-xs font-semibold text-slate-800 truncate"><?= htmlspecialchars($_SESSION['nama'] ?? ''); ?></p>
                 <p class="text-[10px] text-slate-500 truncate font-mono"><?= htmlspecialchars($_SESSION['nim_nidn'] ?? ''); ?></p>
             </div>
-            <a href="<?= $basePath; ?>logout.php" class="text-slate-400 hover:text-rose-600 p-1.5 transition-colors flex-shrink-0" title="Logout dari Sistem">
+            <a href="<?= $basePath; ?>logout.php" aria-label="Logout dari Sistem" class="text-slate-400 hover:text-rose-600 p-1.5 transition-colors flex-shrink-0" title="Logout dari Sistem">
                 <i class="fa-solid fa-right-from-bracket text-xs"></i>
             </a>
         </div>
