@@ -195,17 +195,6 @@
                     </div>
                 </div>
 
-                <!-- Demo Stage Switcher Toggle -->
-                <div class="hidden lg:flex items-center gap-2 bg-slate-100 p-1 rounded-xl border border-slate-200">
-                    <span class="text-[10px] font-bold text-slate-500 px-2 uppercase">Skenario Demo:</span>
-                    <button id="btn-scenario-pre" onclick="setScenario('pre')" class="px-2.5 py-1 text-[11px] font-semibold rounded-lg bg-white text-brand-600 shadow-xs transition-all">
-                        1. Pre-Internship
-                    </button>
-                    <button id="btn-scenario-during" onclick="setScenario('during')" class="px-2.5 py-1 text-[11px] font-semibold rounded-lg text-slate-600 hover:text-slate-900 transition-all">
-                        2. Magang Aktif
-                    </button>
-                </div>
-
                 <!-- Header Right Actions -->
                 <div class="flex items-center gap-3">
                     <button class="w-9 h-9 rounded-xl border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50 relative">
@@ -1009,7 +998,6 @@
     </div>
 
     <script>
-        let currentScenario = 'pre'; // 'pre' or 'during'
 
         // Single Page Navigation Logic
         function switchTab(tabName) {
@@ -1074,76 +1062,6 @@
             });
         }
 
-        // Scenario Switcher Logic (Demo Tool)
-        function setScenario(stage) {
-            currentScenario = stage;
-
-            const btnPre = document.getElementById('btn-scenario-pre');
-            const btnDuring = document.getElementById('btn-scenario-during');
-
-            const statusBadge = document.getElementById('dashboard-status-badge');
-            const statMagangStatus = document.getElementById('stat-magang-status');
-            const statMagangLabel = document.getElementById('stat-magang-label');
-            const statMagangDetail = document.getElementById('stat-magang-detail');
-            const statLogbookHours = document.getElementById('stat-logbook-hours');
-            const statLogbookCount = document.getElementById('stat-logbook-count');
-
-            const lockBadge1 = document.getElementById('badge-lock-my-internship');
-            const lockBadge2 = document.getElementById('badge-lock-logbook');
-
-            const myInternshipLocked = document.getElementById('banner-my-internship-locked');
-            const myInternshipActive = document.getElementById('content-my-internship-active');
-            const logbookLocked = document.getElementById('banner-logbook-locked');
-            const logbookActive = document.getElementById('content-logbook-active');
-
-            if (stage === 'pre') {
-                btnPre.className = "px-2.5 py-1 text-[11px] font-semibold rounded-lg bg-white text-brand-600 shadow-xs transition-all";
-                btnDuring.className = "px-2.5 py-1 text-[11px] font-semibold rounded-lg text-slate-600 hover:text-slate-900 transition-all";
-
-                statusBadge.className = "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-700 text-xs font-semibold";
-                statusBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span> Status: Pre-Internship`;
-
-                statMagangStatus.innerText = "1";
-                statMagangLabel.innerText = "Diterima";
-                statMagangDetail.innerText = "PT Telkom Indonesia";
-                statLogbookHours.innerText = "0";
-                statLogbookCount.innerText = "Belum Mulai Magang";
-
-                lockBadge1.classList.remove('hidden');
-                lockBadge2.classList.remove('hidden');
-
-                myInternshipLocked.classList.remove('hidden');
-                myInternshipActive.classList.add('hidden');
-                logbookLocked.classList.remove('hidden');
-                logbookActive.classList.add('hidden');
-            } else {
-                btnDuring.className = "px-2.5 py-1 text-[11px] font-semibold rounded-lg bg-white text-brand-600 shadow-xs transition-all";
-                btnPre.className = "px-2.5 py-1 text-[11px] font-semibold rounded-lg text-slate-600 hover:text-slate-900 transition-all";
-
-                statusBadge.className = "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-semibold";
-                statusBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Status: Magang Aktif`;
-
-                statMagangStatus.innerText = "Aktif";
-                statMagangLabel.innerText = "Berjalan";
-                statMagangDetail.innerText = "PT Telkom Indonesia";
-                statLogbookHours.innerText = "16";
-                statLogbookCount.innerText = "2 Kegiatan Logbook";
-
-                lockBadge1.classList.add('hidden');
-                lockBadge2.classList.add('hidden');
-
-                myInternshipLocked.classList.add('hidden');
-                myInternshipActive.classList.remove('hidden');
-                logbookLocked.classList.add('hidden');
-                logbookActive.classList.remove('hidden');
-            }
-        }
-
-        function activateInternshipSim() {
-            setScenario('during');
-            switchTab('my-internship');
-        }
-
         // Modal Triggers
         function openModal(id) {
             document.getElementById(id).classList.remove('hidden');
@@ -1163,8 +1081,6 @@
             sidebar.classList.toggle('shadow-2xl');
         }
 
-        // Initialize state
-        setScenario('pre');
     </script>
 </body>
 </html>

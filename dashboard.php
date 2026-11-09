@@ -517,6 +517,58 @@ function renderAppBadge($status) {
             </main>
         </div>
     </div>
+<!-- Modal 3: Tambah Perusahaan Mandiri -->
+    <div id="modal-add-company" class="fixed inset-0 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4 hidden z-50">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl border border-surface-border space-y-5">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <h3 class="font-bold text-sm text-slate-900">Tambah Perusahaan Mandiri</h3>
+                <button type="button" onclick="closeModal('modal-add-company')" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <form action="process_company.php" method="POST" class="space-y-4 text-xs">
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Nama Perusahaan / Instansi *</label>
+                    <input type="text" name="nama_perusahaan" placeholder="PT Contoh Teknologi Indonesia" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-500">
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Sektor Industri *</label>
+                    <input type="text" name="sektor_industri" placeholder="misal: Teknologi & Software" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-500">
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Lokasi Kantor *</label>
+                    <input type="text" name="lokasi" placeholder="misal: Jakarta Selatan / Remote" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-500">
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Email Kontak HR / Informasi</label>
+                    <input type="email" name="kontak_email" placeholder="hr@perusahaan.com" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-500">
+                </div>
 
+                <div class="pt-3 flex items-center justify-end gap-2">
+                    <button type="button" onclick="closeModal('modal-add-company')" class="px-4 py-2 border border-slate-200 rounded-xl text-slate-600 font-semibold hover:bg-slate-50">Batal</button>
+                    <button type="submit" class="px-4 py-2 bg-brand-600 text-white rounded-xl font-semibold hover:bg-brand-700">Simpan Perusahaan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript Logic Kebal Error -->
+    <script>
+        function openModal(id) {
+            const targetId = (typeof id === 'string' && id.trim() !== '') ? id : 'modal-add-company';
+            const modal = document.getElementById(targetId);
+            if (modal) {
+                modal.classList.remove('hidden');
+            } else {
+                console.warn('Elemen modal dengan ID "' + targetId + '" tidak ditemukan.');
+            }
+        }
+        function closeModal(id) {
+            const targetId = (typeof id === 'string' && id.trim() !== '') ? id : 'modal-add-company';
+            const modal = document.getElementById(targetId);
+            if (modal) {
+                modal.classList.add('hidden');
+            }
+        }
+    </script>
 </body>
 </html>

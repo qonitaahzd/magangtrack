@@ -225,11 +225,11 @@ unset($_SESSION['flash_success'], $_SESSION['flash_error']);
             <div class="pt-3 border-t border-surface-border">
                 <div class="flex items-center gap-3 px-2 py-2 rounded-xl bg-slate-50 border border-slate-100">
                     <div class="w-8 h-8 rounded-full bg-brand-600 text-white font-bold flex items-center justify-center text-xs">
-                        <?= strtoupper(substr($student['nama'], 0, 1)); ?>
+                        <?= strtoupper(substr($student['nama'] ?? 'M', 0, 1)); ?>
                     </div>
                     <div class="flex-1 min-w-0">
-                        <p class="text-xs font-semibold text-slate-800 truncate"><?= htmlspecialchars($student['nama']); ?></p>
-                        <p class="text-[10px] text-slate-500 truncate">NIM: <?= htmlspecialchars($student['nim_nidn']); ?></p>
+                        <p class="text-xs font-semibold text-slate-800 truncate"><?= htmlspecialchars($student['nama'] ?? 'Mahasiswa'); ?></p>
+                        <p class="text-[10px] text-slate-500 truncate">NIM: <?= htmlspecialchars($student['nim_nidn'] ?? '-'); ?></p>
                     </div>
                     <a href="logout.php" class="text-slate-400 hover:text-rose-500 p-1 transition-colors" title="Logout">
                         <i class="fa-solid fa-right-from-bracket text-xs"></i>
@@ -244,6 +244,9 @@ unset($_SESSION['flash_success'], $_SESSION['flash_error']);
             <!-- Top Bar Header -->
             <header class="h-16 px-4 md:px-6 bg-white border-b border-surface-border flex items-center justify-between gap-4 flex-shrink-0">
                 <div class="flex items-center gap-3 flex-1 max-w-md">
+                    <button onclick="toggleMobileSidebar()" class="md:hidden p-2 text-slate-600 rounded-xl border border-slate-200 hover:bg-slate-50">
+                        <i class="fa-solid fa-bars text-sm"></i>
+                    </button>
                     <div class="relative w-full">
                         <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
                         <input type="text" id="topbar-search" onkeyup="filterCompanyCards()" placeholder="Cari nama perusahaan, industri, atau lokasi..." class="w-full pl-9 pr-12 py-2 text-xs bg-slate-100/80 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-500 focus:bg-white transition-all">
@@ -259,7 +262,7 @@ unset($_SESSION['flash_success'], $_SESSION['flash_error']);
                     </button>
                     <div class="h-6 w-px bg-slate-200"></div>
                     <div class="text-right hidden sm:block">
-                        <p class="text-xs font-semibold text-slate-800"><?= htmlspecialchars($student['program_studi']); ?></p>
+                        <p class="text-xs font-semibold text-slate-800"><?= htmlspecialchars($student['program_studi'] ?? 'Teknik Informatika'); ?></p>
                         <p class="text-[10px] text-slate-500">Mahasiswa Aktif</p>
                     </div>
                 </div>
@@ -289,7 +292,7 @@ unset($_SESSION['flash_success'], $_SESSION['flash_error']);
                         <h2 class="text-xl font-bold text-slate-900 tracking-tight">Explore Perusahaan Magang</h2>
                         <p class="text-xs text-slate-500 mt-0.5">Temukan atau tambahkan perusahaan tempat magang pilihan kamu.</p>
                     </div>
-                    <button onclick="openModal('modal-add-company')" class="px-4 py-2.5 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs font-semibold shadow-xs flex items-center gap-2 transition-colors">
+                    <button onclick="openAddCompanyModal()" class="px-4 py-2.5 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs font-semibold shadow-xs flex items-center gap-2 transition-colors">
                         <i class="fa-solid fa-plus text-xs"></i>
                         <span>Tambah Perusahaan Mandiri</span>
                     </button>
@@ -347,7 +350,7 @@ unset($_SESSION['flash_success'], $_SESSION['flash_error']);
                                             <?= $shortCode; ?>
                                         </div>
                                         <?php if ($comp['is_verified']): ?>
-                                            <span class="px-2 py-0.5 rounded bg-indigo-50 text-indigo-600 font-semibold text-[10px]">Perusahaan Katalog (Simulasi)</span>
+                                            <span class="px-2 py-0.5 rounded bg-indigo-50 text-indigo-600 font-semibold text-[10px]">Perusahaan Katalog</span>
                                         <?php else: ?>
                                             <span class="px-2 py-0.5 rounded bg-amber-50 text-amber-700 font-semibold text-[10px]">
                                                 Mandiri Saya
@@ -359,7 +362,7 @@ unset($_SESSION['flash_success'], $_SESSION['flash_error']);
                                         <h4 class="font-bold text-sm text-slate-800"><?= htmlspecialchars($comp['nama_perusahaan']); ?></h4>
                                         <p class="text-xs text-slate-500 flex items-center gap-1 mt-0.5">
                                             <i class="fa-solid fa-location-dot text-[10px] text-slate-400"></i>
-                                            <?= htmlspecialchars($comp['lokasi']); ?> • <?= htmlspecialchars($comp['sektor_industri']); ?>
+                                            <span><?= htmlspecialchars($comp['lokasi']); ?> • <?= htmlspecialchars($comp['sektor_industri']); ?></span>
                                         </p>
                                     </div>
 
@@ -401,7 +404,7 @@ unset($_SESSION['flash_success'], $_SESSION['flash_error']);
         <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl border border-surface-border space-y-5">
             <div class="flex items-center justify-between border-b border-slate-100 pb-3">
                 <h3 class="font-bold text-sm text-slate-900">Tambah Perusahaan Mandiri</h3>
-                <button onclick="closeModal('modal-add-company')" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark"></i></button>
+                <button type="button" onclick="closeModal('modal-add-company')" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark"></i></button>
             </div>
             
             <form action="process_company.php" method="POST" class="space-y-4 text-xs">
@@ -437,7 +440,7 @@ unset($_SESSION['flash_success'], $_SESSION['flash_error']);
         <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl border border-surface-border space-y-5">
             <div class="flex items-center justify-between border-b border-slate-100 pb-3">
                 <h3 class="font-bold text-sm text-slate-900">Tambah ke Application Tracker</h3>
-                <button onclick="closeModal('modal-apply')" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark"></i></button>
+                <button type="button" onclick="closeModal('modal-apply')" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark"></i></button>
             </div>
             
             <form action="process_application.php" method="POST" class="space-y-4 text-xs">
@@ -471,37 +474,73 @@ unset($_SESSION['flash_success'], $_SESSION['flash_error']);
 
     <!-- JavaScript Logic -->
     <script>
+        // 1. Fungsi umum membuka modal (Bebas crash & null-safe)
         function openModal(id) {
-            document.getElementById(id).classList.remove('hidden');
+            const targetId = (typeof id === 'string' && id.trim() !== '') ? id : 'modal-add-company';
+            const modal = document.getElementById(targetId);
+            if (modal) {
+                modal.classList.remove('hidden');
+            } else {
+                console.warn('Elemen modal dengan ID "' + targetId + '" tidak ditemukan.');
+            }
         }
 
+        // 2. Fungsi umum menutup modal
         function closeModal(id) {
-            document.getElementById(id).classList.add('hidden');
+            const targetId = (typeof id === 'string' && id.trim() !== '') ? id : 'modal-add-company';
+            const modal = document.getElementById(targetId);
+            if (modal) {
+                modal.classList.add('hidden');
+            }
         }
 
+        // 3. Alias khusus modal Perusahaan Mandiri
+        function openAddCompanyModal() {
+            openModal('modal-add-company');
+        }
+
+        function closeAddCompanyModal() {
+            closeModal('modal-add-company');
+        }
+
+        // 4. Fungsi modal Lamaran Perusahaan
         function openApplyModal(companyId, companyName) {
-            document.getElementById('apply-company-id').value = companyId;
-            document.getElementById('apply-company-name').value = companyName;
+            const inputId = document.getElementById('apply-company-id');
+            const inputName = document.getElementById('apply-company-name');
+            
+            if (inputId) inputId.value = companyId || '';
+            if (inputName) inputName.value = companyName || '';
+            
             openModal('modal-apply');
         }
 
+        // 5. Fungsi Filter Kartu Perusahaan
         function filterCompanyCards() {
-            const topbarSearch = document.getElementById('topbar-search').value.toLowerCase();
-            const keywordSearch = document.getElementById('filter-keyword').value.toLowerCase();
-            const industryFilter = document.getElementById('filter-industry').value;
-            const locationFilter = document.getElementById('filter-location').value;
+            const topbarElem = document.getElementById('topbar-search');
+            const keywordElem = document.getElementById('filter-keyword');
+            const industryElem = document.getElementById('filter-industry');
+            const locationElem = document.getElementById('filter-location');
+
+            const topbarSearch = topbarElem ? topbarElem.value.toLowerCase().trim() : '';
+            const keywordSearch = keywordElem ? keywordElem.value.toLowerCase().trim() : '';
+            const industryFilter = industryElem ? industryElem.value : '';
+            const locationFilter = locationElem ? locationElem.value : '';
 
             const query = topbarSearch || keywordSearch;
             const cards = document.querySelectorAll('.company-card');
 
             cards.forEach(card => {
-                const name = card.getAttribute('data-name');
-                const industry = card.getAttribute('data-industry');
-                const location = card.getAttribute('data-location');
+                const rawName = card.getAttribute('data-name') || '';
+                const rawIndustry = card.getAttribute('data-industry') || '';
+                const rawLocation = card.getAttribute('data-location') || '';
 
-                const matchesKeyword = !query || name.includes(query) || industry.toLowerCase().includes(query) || location.toLowerCase().includes(query);
-                const matchesIndustry = !industryFilter || industry === industryFilter;
-                const matchesLocation = !locationFilter || location === locationFilter;
+                const name = rawName.toLowerCase();
+                const industry = rawIndustry.toLowerCase();
+                const location = rawLocation.toLowerCase();
+
+                const matchesKeyword = !query || name.includes(query) || industry.includes(query) || location.includes(query);
+                const matchesIndustry = !industryFilter || rawIndustry === industryFilter;
+                const matchesLocation = !locationFilter || rawLocation === locationFilter;
 
                 if (matchesKeyword && matchesIndustry && matchesLocation) {
                     card.classList.remove('hidden');
@@ -509,6 +548,19 @@ unset($_SESSION['flash_success'], $_SESSION['flash_error']);
                     card.classList.add('hidden');
                 }
             });
+        }
+
+        // 6. Toggle Sidebar versi Mobile
+        function toggleMobileSidebar() {
+            const sidebar = document.querySelector('aside');
+            if (sidebar) {
+                sidebar.classList.toggle('hidden');
+                sidebar.classList.toggle('fixed');
+                sidebar.classList.toggle('inset-y-0');
+                sidebar.classList.toggle('left-0');
+                sidebar.classList.toggle('z-50');
+                sidebar.classList.toggle('shadow-2xl');
+            }
         }
     </script>
 </body>
